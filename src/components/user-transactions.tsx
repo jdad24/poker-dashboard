@@ -1,6 +1,18 @@
-import { Table, TableContainer, TableHead, TableRow, TableCell } from "@mui/material"
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from "@mui/material"
 
-export default function UserTransactionsTable() {
+interface Transactions {
+    id: number;
+    user: string;
+    buyInAmount: number;
+    buyInMethod: string;
+    rebuyAmount: number;
+    rebuyMethod: string;
+    cashoutAmount: number;
+    cashoutMethod: string;
+    time: string;
+}
+
+export default function UserTransactionsTable({transactions} : {transactions: Transactions[]}) {
   return (
     <TableContainer>
       <Table>
@@ -17,6 +29,21 @@ export default function UserTransactionsTable() {
             <TableCell className="font-bold">Time</TableCell>
           </TableRow>
         </TableHead>
+        <TableBody>
+          {transactions.map((transaction) => (
+            <TableRow key={transaction.id}>
+              <TableCell>{transaction.id}</TableCell>
+              <TableCell>{transaction.user}</TableCell>
+              <TableCell>{transaction.buyInAmount}</TableCell>
+              <TableCell>{transaction.buyInMethod}</TableCell>
+              <TableCell>{transaction.rebuyAmount}</TableCell>
+              <TableCell>{transaction.rebuyMethod}</TableCell>
+              <TableCell>{transaction.cashoutAmount}</TableCell>
+              <TableCell>{transaction.cashoutMethod}</TableCell>
+              <TableCell>{new Date(transaction.time).toLocaleString()}</TableCell>
+            </TableRow>
+          ))}   
+        </TableBody>
       </Table>
     </TableContainer>
   )

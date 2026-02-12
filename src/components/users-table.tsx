@@ -1,18 +1,17 @@
 import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from "@mui/material"
-import { useEffect, useState } from "react";
 
-export default function UsersTable() {
-  const [users, setUsers] = useState([]);
+interface User {
+  id: number;
+  name: string;
+  phone: string;
+  email: string;
+  isBanned: boolean;
+  hasLoan: boolean;
+  notes: string;
+}
 
-  useEffect(() => {
-    (async () => {
-      const response = await fetch("http://localhost:5000/users");
-      setUsers(await response.json());
-    })();
-  }, [])
-
-
-  const renderUsers = users.map((user: any) => {
+export default function UsersTable({ users }: { users: User[] }) {
+  const renderUsers = users.map((user: User) => {
     return (
       <TableRow key={user.id}>
         <TableCell>{user.id}</TableCell>
