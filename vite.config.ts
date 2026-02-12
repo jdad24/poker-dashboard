@@ -8,4 +8,13 @@ export default defineConfig({
     react(),
     tailwindcss(), // Add the plugin to the plugins array
   ],
+  server: {
+    proxy: {
+      // Proxy requests starting with '/api'
+      '/api': {
+        target: 'http://localhost:5000', // The address of your Express server
+        changeOrigin: true,        
+      },
+    },
+  },
 });

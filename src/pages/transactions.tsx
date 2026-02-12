@@ -1,4 +1,4 @@
-import UserTransactionsTable from "../components/user-transactions"
+import UserTransactionsTable from "../components/user-transactions-table"
 import TransactionsModal from "../components/transactions-modal";
 import { Button } from "@mui/material"
 import { useState, useEffect } from "react";
@@ -21,8 +21,8 @@ export default function Transactions() {
     }, []);
 
     return (
-        <div>
-            <Button variant="contained" className="my-4 mr-4 float-right" onClick={() => setTransactionModalOpen(true)}>Add Transaction</Button>
+        <div className="flex flex-col w-[90%] mx-auto">
+            <Button variant="contained" className="w-50 my-4 mr-4 ml-auto" onClick={() => setTransactionModalOpen(true)}>Add Transaction</Button>
             <UserTransactionsTable transactions={transactions} />
             <TransactionsModal open={transactionModalOpen} handleClose={() => setTransactionModalOpen(false)} />
         </div>

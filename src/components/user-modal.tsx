@@ -18,7 +18,7 @@ export default function UserModal({ open, handleClose }: { open: boolean, handle
     return (
         <Modal className="flex flex-row justify-center items-center" open={open}>
             <div className="bg-white w-200 h-150 rounded-2xl">
-                <h1 className="text-2xl font-bold m-4">Add New User <Person /></h1>
+                <h1 className="text-2xl font-bold m-4">New User <Person /></h1>
                 <form className="flex flex-col" onSubmit={handleSubmit}>
                     <TextField className="m-4" required label="Name" name="name" variant="outlined" />
                     <TextField className="m-4" required label="Email" name="email" variant="outlined" />

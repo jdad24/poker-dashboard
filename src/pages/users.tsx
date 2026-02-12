@@ -21,9 +21,9 @@ export default function Users() {
         fetchUsers();
     }, []);
     return (
-        <div className="flex flex-col">
+        <div className="flex flex-col w-[90%] mx-auto">
             {/* <DataCard title="Total Users" value="123" className="ml-auto mr-4 mt-4" /> */}
-            <Button variant="contained" className="w-40 my-4 mr-4 ml-auto" onClick={() => setUserModalOpen(true)}>Add User</Button>
+            <Button variant="contained" className="w-50 my-4 mr-4 ml-auto" onClick={() => setUserModalOpen(true)}>Add User</Button>
             <UsersTable users={users} />
             <UserModal open={userModalOpen} handleClose={() => setUserModalOpen(false)} />
         </div>

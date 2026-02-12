@@ -1,4 +1,4 @@
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from "@mui/material"
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper } from "@mui/material"
 
 interface User {
   id: number;
@@ -26,7 +26,7 @@ export default function UsersTable({ users }: { users: User[] }) {
   })
 
   return (
-    <TableContainer>
+    <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>

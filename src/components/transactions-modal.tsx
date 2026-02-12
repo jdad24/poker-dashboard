@@ -21,7 +21,7 @@ export default function TransactionsModal({ open, handleClose }: { open: boolean
     return (
         <Modal className="flex flex-row justify-center items-center" open={open}>
             <div className="bg-white w-200 h-150 rounded-2xl overflow-scroll">
-                <h1 className="text-2xl font-bold m-4">Add New Transaction <ReceiptIcon /></h1>
+                <h1 className="text-2xl font-bold m-4">New Transaction <ReceiptIcon /></h1>
                 <form className="flex flex-col" onSubmit={handleSubmit}>
                     <TextField className="m-4 w-100" required label="User" name="user" variant="outlined" />
                     <div className="flex flex-row">

@@ -1,4 +1,4 @@
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody } from "@mui/material"
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper } from "@mui/material"
 
 interface Transactions {
     id: number;
@@ -14,7 +14,7 @@ interface Transactions {
 
 export default function UserTransactionsTable({transactions} : {transactions: Transactions[]}) {
   return (
-    <TableContainer>
+    <TableContainer component={Paper}>
       <Table>
         <TableHead>
           <TableRow>
