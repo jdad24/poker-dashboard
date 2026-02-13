@@ -10,7 +10,7 @@ interface User {
   notes: string;
 }
 
-export default function UsersTable({ users }: { users: User[] }) {
+export default function UsersTable({ users, className = "" }: { users: User[], className?: string }) {
   const renderUsers = users.map((user: User) => {
     return (
       <TableRow key={user.id}>
@@ -26,7 +26,7 @@ export default function UsersTable({ users }: { users: User[] }) {
   })
 
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} className={className}>
       <Table>
         <TableHead>
           <TableRow>

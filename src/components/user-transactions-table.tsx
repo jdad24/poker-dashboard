@@ -12,9 +12,9 @@ interface Transactions {
     time: string;
 }
 
-export default function UserTransactionsTable({transactions} : {transactions: Transactions[]}) {
+export default function UserTransactionsTable({transactions, className = ""} : {transactions: Transactions[], className?: string}) {
   return (
-    <TableContainer component={Paper}>
+    <TableContainer component={Paper} className={className}>
       <Table>
         <TableHead>
           <TableRow>
