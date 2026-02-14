@@ -37,7 +37,7 @@ export default function AdminPage() {
         fetchData();
     }, []);
 
-    const handlePersonnelTabChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handlePersonnelTabChange = (_event: React.SyntheticEvent, newValue: number) => {
         // Handle tab change logic here
         setPersonnelTab(newValue);
     }
