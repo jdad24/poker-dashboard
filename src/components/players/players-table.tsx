@@ -1,6 +1,6 @@
 import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper } from "@mui/material"
 
-interface User {
+interface Player {
   id: number;
   name: string;
   phone: string;
@@ -10,17 +10,17 @@ interface User {
   notes: string;
 }
 
-export default function UsersTable({ users, className = "" }: { users: User[], className?: string }) {
-  const renderUsers = users.map((user: User) => {
+export default function PlayersTable({ players, className = "" }: { players: Player[], className?: string }) {
+  const renderPlayers = players.map((player: Player) => {
     return (
-      <TableRow key={user.id}>
-        <TableCell>{user.id}</TableCell>
-        <TableCell>{user.name}</TableCell>
-        <TableCell>{user.phone}</TableCell>
-        <TableCell>{user.email}</TableCell>
-        <TableCell>{user.isBanned ? "Yes" : "No"}</TableCell>
-        <TableCell>{user.hasLoan ? "Yes" : "No"}</TableCell>
-        <TableCell>{user.notes}</TableCell>
+      <TableRow key={player.id}>
+        <TableCell>{player.id}</TableCell>
+        <TableCell>{player.name}</TableCell>
+        <TableCell>{player.phone}</TableCell>
+        <TableCell>{player.email}</TableCell>
+        <TableCell>{player.isBanned ? "Yes" : "No"}</TableCell>
+        <TableCell>{player.hasLoan ? "Yes" : "No"}</TableCell>
+        <TableCell>{player.notes}</TableCell>
       </TableRow>
     )
   })
@@ -40,7 +40,7 @@ export default function UsersTable({ users, className = "" }: { users: User[], c
           </TableRow>
         </TableHead>
         <TableBody>
-          {renderUsers}
+          {renderPlayers}
         </TableBody>
       </Table>
     </TableContainer>

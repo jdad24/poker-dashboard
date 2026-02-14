@@ -2,7 +2,7 @@ import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper
 
 interface Transactions {
     id: number;
-    user: string;
+    player: string;
     buyInAmount: number;
     buyInMethod: string;
     rebuyAmount: number;
@@ -12,14 +12,14 @@ interface Transactions {
     time: string;
 }
 
-export default function UserTransactionsTable({transactions, className = ""} : {transactions: Transactions[], className?: string}) {
+export default function PlayerTransactionsTable({transactions, className = ""} : {transactions: Transactions[], className?: string}) {
   return (
     <TableContainer component={Paper} className={className}>
       <Table>
         <TableHead>
           <TableRow>
             <TableCell className="font-bold">ID</TableCell>
-            <TableCell className="font-bold">User</TableCell>
+            <TableCell className="font-bold">Player</TableCell>
             <TableCell className="font-bold">Buy-In Amount</TableCell>
             <TableCell className="font-bold">Buy-In Method</TableCell>
             <TableCell className="font-bold">Rebuy Amount</TableCell>
@@ -33,7 +33,7 @@ export default function UserTransactionsTable({transactions, className = ""} : {
           {transactions.map((transaction) => (
             <TableRow key={transaction.id}>
               <TableCell>{transaction.id}</TableCell>
-              <TableCell>{transaction.user}</TableCell>
+              <TableCell>{transaction.player}</TableCell>
               <TableCell>{transaction.buyInAmount}</TableCell>
               <TableCell>{transaction.buyInMethod}</TableCell>
               <TableCell>{transaction.rebuyAmount}</TableCell>

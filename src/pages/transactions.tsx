@@ -1,5 +1,5 @@
-import UserTransactionsTable from "../components/user-transactions-table"
-import TransactionsModal from "../components/transactions-modal";
+import PlayerTransactionsTable from "../components/players/player-transactions-table";
+import TransactionsModal from "../components/new-transactions-modal";
 import { Button } from "@mui/material"
 import { useState, useEffect } from "react";
 import { getTransactions } from "../services/transactions";
@@ -23,7 +23,7 @@ export default function Transactions() {
     return (
         <div className="flex flex-col w-[90%] mx-auto">
             <Button variant="contained" className="w-50 my-4 mr-4 ml-auto" onClick={() => setTransactionModalOpen(true)}>Add Transaction</Button>
-            <UserTransactionsTable transactions={transactions} />
+            <PlayerTransactionsTable transactions={transactions} />
             <TransactionsModal open={transactionModalOpen} handleClose={() => setTransactionModalOpen(false)} />
         </div>
     )

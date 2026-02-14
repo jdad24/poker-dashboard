@@ -1,12 +1,12 @@
 import { Modal, TextField, Button } from "@mui/material"
 import ReceiptIcon from '@mui/icons-material/Receipt';
 
-export default function TransactionsModal({ open, handleClose }: { open: boolean, handleClose: () => void }) {
+export default function NewTransactionsModal({ open, handleClose }: { open: boolean, handleClose: () => void }) {
     const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault(); //prevents page refresh on submit
 
         const formData = new FormData(event.currentTarget);
-        const user = formData.get("user") as string;
+        const player = formData.get("player") as string;
         const buyInAmount = formData.get("buyInAmount") as string;
         const buyInMethod = formData.get("buyInMethod") as string;
         const rebuyAmount = formData.get("rebuyAmount") as string;
@@ -14,7 +14,7 @@ export default function TransactionsModal({ open, handleClose }: { open: boolean
         const cashoutAmount = formData.get("cashoutAmount") as string;
         const cashoutMethod = formData.get("cashoutMethod") as string;
 
-        console.log({ user, buyInAmount, buyInMethod, rebuyAmount, rebuyMethod, cashoutAmount, cashoutMethod });
+        console.log({ player, buyInAmount, buyInMethod, rebuyAmount, rebuyMethod, cashoutAmount, cashoutMethod });
         console.log("Form submission occurred.")
     }
 
@@ -23,7 +23,7 @@ export default function TransactionsModal({ open, handleClose }: { open: boolean
             <div className="bg-white w-200 h-150 rounded-2xl overflow-scroll">
                 <h1 className="text-2xl font-bold m-4">New Transaction <ReceiptIcon /></h1>
                 <form className="flex flex-col" onSubmit={handleSubmit}>
-                    <TextField className="m-4 w-100" required label="User" name="user" variant="outlined" />
+                    <TextField className="m-4 w-100" required label="Player" name="player" variant="outlined" />
                     <div className="flex flex-row">
                         <TextField className="m-4" required label="Buy-In Amount" name="buyInAmount" variant="outlined" />
                         <TextField className="m-4" required label="Buy-In Method" name="buyInMethod" variant="outlined" />

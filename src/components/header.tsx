@@ -7,8 +7,8 @@ export default function Header() {
 
     return (
         <AppBar position="static" className="flex flex-row justify-center items-center h-10">
-            {/* <Link to="/users">
-                <Button className="text-white font-bold">Users</Button>
+            {/* <Link to="/players">
+                <Button className="text-white font-bold">Players</Button>
             </Link>
             <Link to="/transactions">
                 <Button className="text-white font-bold">Transactions</Button>
