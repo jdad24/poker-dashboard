@@ -64,20 +64,20 @@ export default function AdminPage() {
     }
     return (
         <div className="flex flex-col w-[95%] mx-auto">
-            <div className="flex flex-row justify-between mb-12">
-                <DataCard className="m-4" title="Total Players" value={String(players.length)} />
-                <DataCard className="m-4" title="Total Dealers" value={String(dealers.length)} />
-                <DataCard className="m-4" title="Total Transactions" value={String(transactions.length)} />
+            <div className="flex flex-row justify-between mb-12 ">
+                <DataCard className="m-4 shadow-md shadow-black" title="Total Players" value={String(players.length)} />
+                <DataCard className="m-4 shadow-md shadow-black" title="Total Dealers" value={String(dealers.length)} />
+                <DataCard className="m-4 shadow-md shadow-black" title="Total Transactions" value={String(transactions.length)} />
             </div>
-            <div className="flex flex-col space-y-5">
-                <div className="bg-blue-400/20 p-4 rounded-lg">
+            <div className="flex flex-col space-y-10">
+                <div className="bg-blue-400/20 p-4 rounded-lg shadow-md shadow-black">
                     <Tabs onChange={handlePersonnelTabChange} className="mb-4" value={personnelTab}>
-                        <Tab label="Players" value={0} />
-                        <Tab label="Dealers" value={1} />
+                        <Tab className="font-bold" label="Players" value={0} />
+                        <Tab className="font-bold" label="Dealers" value={1} />
                     </Tabs>
                     {renderPeronnelTabContent()}
                 </div>
-                <div className="bg-blue-400/20 p-4 rounded-lg">
+                <div className="bg-blue-400/20 p-4 rounded-lg shadow-md shadow-black">
                     <div className="text-xl font-semibold flex flex-row items-center justify-between">
                         <p className="text-xl">Transactions</p>
                         <Button size="small" variant="contained" className="w-50 my-4 mr-4 ml-auto" onClick={() => setNewTransactionModalOpen(true)}>Add Transaction <Add className="ml-2" /></Button>
