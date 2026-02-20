@@ -62,14 +62,14 @@ export default function AdminPage() {
                 return (
                     <>
                         <Button size="small" variant="contained" className="w-50 my-4 mr-4 ml-auto float-right" onClick={() => setNewPlayerModalOpen(true)}>Add Player <Add className="ml-2" /></Button>
-                        <PlayersTable players={players} className="max-h-100" />
+                        <PlayersTable players={players} className="max-h-100 shadow-sm shadow-black" />
                     </>
                 )
             case 1:
                 return (
                     <>
                         <Button size="small" variant="contained" className="w-50 my-4 mr-4 ml-auto float-right" onClick={() => setNewPlayerTransactionModalOpen(true)}>Add Transaction <Add className="ml-2" /></Button>
-                        <PlayerTransactionsTable transactions={playerTransactions} className="max-h-100" />
+                        <PlayerTransactionsTable transactions={playerTransactions} className="max-h-100 shadow-sm shadow-black" />
                     </>
                 )
             default:
@@ -83,14 +83,14 @@ export default function AdminPage() {
                 return (
                     <>
                         <Button size="small" variant="contained" className="w-50 my-4 mr-4 ml-auto float-right" onClick={() => setNewDealerModalOpen(true)}>Add Dealer <Add className="ml-2" /></Button>
-                        <DealersTable dealers={dealers} className="max-h-100" />
+                        <DealersTable dealers={dealers} className="max-h-100 shadow-sm shadow-black" />
                     </>
                 )
             case 1:
                 return (
                     <>
                         <Button size="small" variant="contained" className="w-50 my-4 mr-4 ml-auto float-right" onClick={() => setNewDealerSessionModalOpen(true)}>Add Session <Add className="ml-2" /></Button>
-                        <DealerSessionsTable sessions={dealerSessions} className="max-h-100" />
+                        <DealerSessionsTable sessions={dealerSessions} className="max-h-100 shadow-sm shadow-black" />
                     </>
                 )
             default:
