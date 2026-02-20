@@ -25,20 +25,7 @@ app.get('/api/players', (req, res) => {
   res.json(players);
 });
 
-app.get('/api/dealers', (req, res) => {
-  // Mock dealer data. Will implement database connection later.
-  const dealers = [
-    { id: 1, name: 'Dealer 1', email: 'dealer1@example.com', phone: '223-456-7890', status: 'Active', notes: 'Loves poker' },
-    { id: 2, name: 'Dealer 2', email: 'dealer2@example.com', phone: '098-112-9321', status: 'Active', notes: 'Gross runouts' },
-    { id: 3, name: 'Dealer 3', email: 'dealer3@example.com', phone: '155-423-9511', status: 'Inactive' },
-    { id: 4, name: 'Dealer 4', email: 'dealer4@example.com', phone: '555-987-6353', status: 'Active' },
-    { id: 5, name: 'Dealer 5', email: '', phone: '555-456-7890', status: 'Inactive' },
-    { id: 6, name: 'Dealer 6', email: 'dealer6@example.com', phone: '555-123-4567', status: 'Active' }
-  ];
-  res.json(dealers);
-});
-
-app.get('/api/transactions', (req, res) => {
+app.get('/api/players/transactions', (req, res) => {
   // Mock transaction data. Will implement database connection later.
   const transactions = [
     { id: 1, player: 'Alice', buyInAmount: 100, buyInMethod: 'Cash', rebuyAmount: 50, rebuyMethod: 'Cash', cashoutAmount: 150, cashoutMethod: 'Cash', time: '2023-01-01' },
@@ -55,6 +42,32 @@ app.get('/api/transactions', (req, res) => {
     { id: 12, player: 'Grace', buyInAmount: 800, buyInMethod: 'Credit Card', rebuyAmount: 400, rebuyMethod: 'Credit Card', cashoutAmount: 1200, cashoutMethod: 'Credit Card', time: '2023-01-12' }
   ];
   res.json(transactions);
+});
+
+app.get('/api/dealers', (req, res) => {
+  // Mock dealer data. Will implement database connection later.
+  const dealers = [
+    { id: 1, name: 'Dealer 1', email: 'dealer1@example.com', phone: '223-456-7890', status: 'Active', notes: 'Loves poker' },
+    { id: 2, name: 'Dealer 2', email: 'dealer2@example.com', phone: '098-112-9321', status: 'Active', notes: 'Gross runouts' },
+    { id: 3, name: 'Dealer 3', email: 'dealer3@example.com', phone: '155-423-9511', status: 'Inactive' },
+    { id: 4, name: 'Dealer 4', email: 'dealer4@example.com', phone: '555-987-6353', status: 'Active' },
+    { id: 5, name: 'Dealer 5', email: '', phone: '555-456-7890', status: 'Inactive' },
+    { id: 6, name: 'Dealer 6', email: 'dealer6@example.com', phone: '555-123-4567', status: 'Active' }
+  ];
+  res.json(dealers);
+});
+
+app.get('/api/dealers/sessions', (req, res) => {
+  // Mock dealer session data. Will implement database connection later.
+  const sessions = [
+    { id: 1, dealer: 'Dealer 1', downNumber: 1, tableNumber: 1, handsDealt: 10, totalTips: 150, gameCost: 100, startTime: '2023-01-01T18:00:00Z', endTime: '2023-01-01T22:00:00Z', notes: 'Great session!' },
+    { id: 2, dealer: 'Dealer 2', downNumber: 2, tableNumber: 2, handsDealt: 15, totalTips: 250, gameCost: 150, startTime: '2023-01-02T18:00:00Z', endTime: '2023-01-02T22:00:00Z' },
+    { id: 3, dealer: 'Dealer 3', downNumber: 3, tableNumber: 3, handsDealt: 8, totalTips: 185, gameCost :75 , startTime:'2023-01-03T18:00:00Z', endTime:'2023-01-03T22:00:00Z', notes: 'Rough session, lots of bad beats.' },
+    { id: 4, dealer: 'Dealer 4', downNumber: 4, tableNumber: 4, handsDealt: 7, totalTips: 75, gameCost: 55, startTime: '2023-01-04T18:00:00Z', endTime: '2023-01-04T22:00:00Z' },
+    { id: 5, dealer:'Dealer 5', downNumber :5 , tableNumber :5 , handsDealt :6 , totalTips :65 , gameCost :45 , startTime:'2023-01-05T18:00:00Z', endTime:'2023-01-05T22:00:00Z' },
+    { id: 6, dealer:'Dealer 6', downNumber :6 , tableNumber :6 , handsDealt :5 , totalTips :45 , gameCost :35 , startTime:'2023-01-06T18:00:00Z', endTime:'2023-01-06T22:00:00Z' }
+  ];
+  res.json(sessions);
 });
 
 app.get('/{*all}', (req, res) => {

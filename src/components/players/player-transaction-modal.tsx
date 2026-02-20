@@ -1,7 +1,7 @@
 import { Modal, TextField, Button } from "@mui/material"
 import ReceiptIcon from '@mui/icons-material/Receipt';
 
-export default function NewTransactionsModal({ open, handleClose }: { open: boolean, handleClose: () => void }) {
+export default function PlayerTransactionModal({ open, handleClose }: { open: boolean, handleClose: () => void }) {
     const handleSubmit = (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault(); //prevents page refresh on submit
 

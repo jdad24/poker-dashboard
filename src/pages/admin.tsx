@@ -1,39 +1,44 @@
 import PlayersTable from "../components/players/players-table"
 import PlayerTransactionsTable from "../components/players/player-transactions-table"
 import { useState, useEffect } from "react"
-import { getTransactions } from "../services/transactions"
-import { getPlayers } from "../services/players"
-import { getDealers } from "../services/dealers"
+import { getPlayers, getPlayerTransactions } from "../services/players"
+import { getDealers, getDealerSessions } from "../services/dealers"
 import { Button } from "@mui/material"
 import NewPlayerModal from "../components/players/new-player-modal"
-import NewTransactionsModal from "../components/new-transactions-modal"
+import PlayerTransactionModal from "../components/players/player-transaction-modal"
 import { Add } from "@mui/icons-material"
 import DataCard from "../components/data-card"
 import { Tabs, Tab } from "@mui/material"
 import DealersTable from "../components/dealers/dealers-table"
+import DealerSessionsTable from "../components/dealers/dealer-sessions-table"
+import DealerSessionsModal from "../components/dealers/session-modal"
 import NewDealerModal from "../components/dealers/new-dealer-modal"
 import { OpenInFull } from "@mui/icons-material"
 
 export default function AdminPage() {
     const [players, setPlayers] = useState([]);
     const [dealers, setDealers] = useState([]);
-    const [transactions, setTransactions] = useState([]);
+    const [playerTransactions, setPlayerTransactions] = useState([]);
+    const [dealerSessions, setDealerSessions] = useState([]);
 
     const [newPlayerModalOpen, setNewPlayerModalOpen] = useState(false);
     const [newDealerModalOpen, setNewDealerModalOpen] = useState(false);
-    const [newTransactionModalOpen, setNewTransactionModalOpen] = useState(false);
+    const [newPlayerTransactionModalOpen, setNewPlayerTransactionModalOpen] = useState(false);
+    const [newDealerSessionModalOpen, setNewDealerSessionModalOpen] = useState(false);
 
-    const [personnelTab, setPersonnelTab] = useState(0);
+    const [playerTab, setPlayerTab] = useState(0);
+    const [dealerTab, setDealerTab] = useState(0);
 
-    const [personnelTabExpanded, setPersonnelTabExpanded] = useState(true);
-    const [transactionsTabExpanded, setTransactionsTabExpanded] = useState(true);
+    const [playerTabExpanded, setPlayerTabExpanded] = useState(true);
+    const [dealerTabExpanded, setDealerTabExpanded] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setPlayers(await getPlayers());
                 setDealers(await getDealers());
-                setTransactions(await getTransactions());
+                setPlayerTransactions(await getPlayerTransactions());
+                setDealerSessions(await getDealerSessions());
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
@@ -41,13 +46,18 @@ export default function AdminPage() {
         fetchData();
     }, []);
 
-    const handlePersonnelTabChange = (_event: React.SyntheticEvent, newValue: number) => {
+    const handlePlayerTabChange = (_event: React.SyntheticEvent, newValue: number) => {
         // Handle tab change logic here
-        setPersonnelTab(newValue);
+        setPlayerTab(newValue);
     }
 
-    const renderPeronnelTabContent = () => {
-        switch (personnelTab) {
+     const handleDealerTabChange = (_event: React.SyntheticEvent, newValue: number) => {
+        // Handle tab change logic here
+        setDealerTab(newValue);
+    }
+        
+    const renderPlayerTabContent = () => {
+        switch (playerTab) {
             case 0:
                 return (
                     <>
@@ -58,8 +68,29 @@ export default function AdminPage() {
             case 1:
                 return (
                     <>
+                        <Button size="small" variant="contained" className="w-50 my-4 mr-4 ml-auto float-right" onClick={() => setNewPlayerTransactionModalOpen(true)}>Add Transaction <Add className="ml-2" /></Button>
+                        <PlayerTransactionsTable transactions={playerTransactions} className="max-h-100" />
+                    </>
+                )
+            default:
+                return null;
+        }
+    }
+
+    const renderDealerTabContent = () => {
+        switch (dealerTab) {
+            case 0:
+                return (
+                    <>
                         <Button size="small" variant="contained" className="w-50 my-4 mr-4 ml-auto float-right" onClick={() => setNewDealerModalOpen(true)}>Add Dealer <Add className="ml-2" /></Button>
                         <DealersTable dealers={dealers} className="max-h-100" />
+                    </>
+                )
+            case 1:
+                return (
+                    <>
+                        <Button size="small" variant="contained" className="w-50 my-4 mr-4 ml-auto float-right" onClick={() => setNewDealerSessionModalOpen(true)}>Add Session <Add className="ml-2" /></Button>
+                        <DealerSessionsTable sessions={dealerSessions} className="max-h-100" />
                     </>
                 )
             default:
@@ -71,31 +102,35 @@ export default function AdminPage() {
             <div className="flex flex-row justify-between mb-12 ">
                 <DataCard className="m-4 shadow-md shadow-black" title="Total Players" value={String(players.length)} />
                 <DataCard className="m-4 shadow-md shadow-black" title="Total Dealers" value={String(dealers.length)} />
-                <DataCard className="m-4 shadow-md shadow-black" title="Total Transactions" value={String(transactions.length)} />
+                <DataCard className="m-4 shadow-md shadow-black" title="Total Player Transactions" value={String(playerTransactions.length)} />
+                <DataCard className="m-4 shadow-md shadow-black" title="Total Dealer Sessions" value={String(dealerSessions.length)} />
             </div>
             <div className="flex flex-col space-y-10">
-                <div className={`bg-blue-400/20 p-4 rounded-lg shadow-md shadow-black ${personnelTabExpanded ? 'h-auto' : 'h-20'} overflow-hidden`}>
+                <div className={`bg-blue-400/20 p-4 rounded-lg shadow-md shadow-black ${playerTabExpanded ? 'h-auto' : 'h-20'} overflow-hidden`}>
                     <div className="flex flex-row justify-between">
-                        <Tabs onChange={handlePersonnelTabChange} className="mb-4" value={personnelTab}>
+                        <Tabs onChange={handlePlayerTabChange} className="mb-4" value={playerTab}>
                             <Tab className="font-bold" label="Players" value={0} />
-                            <Tab className="font-bold" label="Dealers" value={1} />
+                            <Tab className="font-bold" label="Transactions" value={1} />
                         </Tabs>
-                        <OpenInFull className="ml-auto hover:scale-150 cursor-pointer" onClick={() => setPersonnelTabExpanded(!personnelTabExpanded)} />
+                        <OpenInFull className="ml-auto hover:scale-150 cursor-pointer" onClick={() => setPlayerTabExpanded(!playerTabExpanded)} />
                     </div>
-                    {renderPeronnelTabContent()}
+                    {renderPlayerTabContent()}
                 </div>
-                <div className={`flex flex-col bg-blue-400/20 p-4 rounded-lg shadow-md shadow-black ${transactionsTabExpanded ? 'h-auto' : 'h-25'} overflow-hidden`}>
-                    <OpenInFull className="ml-auto hover:scale-150 cursor-pointer" onClick={() => setTransactionsTabExpanded(!transactionsTabExpanded)} />
-                    <div className="text-xl font-semibold flex flex-row items-center justify-between">
-                        <p className="text-xl">Transactions</p>
-                        <Button size="small" variant="contained" className="w-50 my-4 mr-4 ml-auto" onClick={() => setNewTransactionModalOpen(true)}>Add Transaction <Add className="ml-2" /></Button>
+              <div className={`bg-blue-400/20 p-4 rounded-lg shadow-md shadow-black ${dealerTabExpanded ? 'h-auto' : 'h-20'} overflow-hidden`}>
+                    <div className="flex flex-row justify-between">
+                        <Tabs onChange={handleDealerTabChange} className="mb-4" value={dealerTab}>
+                            <Tab className="font-bold" label="Dealers" value={0} />
+                            <Tab className="font-bold" label="Sessions" value={1} />
+                        </Tabs>
+                        <OpenInFull className="ml-auto hover:scale-150 cursor-pointer" onClick={() => setDealerTabExpanded(!dealerTabExpanded)} />
                     </div>
-                    <PlayerTransactionsTable transactions={transactions} className="max-h-100" />
-                </div>
+                    {renderDealerTabContent()}
+                    </div>
             </div>
             <NewPlayerModal open={newPlayerModalOpen} handleClose={() => setNewPlayerModalOpen(false)} />
             <NewDealerModal open={newDealerModalOpen} handleClose={() => setNewDealerModalOpen(false)} />
-            <NewTransactionsModal open={newTransactionModalOpen} handleClose={() => setNewTransactionModalOpen(false)} />
+            <PlayerTransactionModal open={newPlayerTransactionModalOpen} handleClose={() => setNewPlayerTransactionModalOpen(false)} />
+            <DealerSessionsModal open={newDealerSessionModalOpen} handleClose={() => setNewDealerSessionModalOpen(false)} />
         </div>
     )
 }

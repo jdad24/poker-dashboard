@@ -1,8 +1,8 @@
 import PlayerTransactionsTable from "../components/players/player-transactions-table";
-import TransactionsModal from "../components/new-transactions-modal";
+import TransactionsModal from "../components/players/player-transaction-modal";
 import { Button } from "@mui/material"
 import { useState, useEffect } from "react";
-import { getTransactions } from "../services/transactions";
+import { getPlayerTransactions } from "../services/player-transactions";
 
 export default function Transactions() {
     const [transactions, setTransactions] = useState([]);
@@ -11,7 +11,7 @@ export default function Transactions() {
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
-                const data = await getTransactions();                
+                const data = await getPlayerTransactions();                
                 setTransactions(data);                
             } catch (error) {
                 console.error('Error fetching transactions:', error);
