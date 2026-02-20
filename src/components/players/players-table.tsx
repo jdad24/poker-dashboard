@@ -27,7 +27,7 @@ export default function PlayersTable({ players, className = "" }: { players: Pla
 
   return (
     <TableContainer component={Paper} className={className}>
-      <Table>
+      <Table stickyHeader>
         <TableHead>
           <TableRow>
             <TableCell className="font-bold">ID</TableCell>

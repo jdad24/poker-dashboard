@@ -30,7 +30,7 @@ export default function DealerSessionsTable({ sessions, className }: { sessions:
     }
     return (
         <TableContainer className={className} component={Paper}>
-            <Table>
+            <Table stickyHeader>
                 <TableHead>
                     <TableRow>
                         <TableCell className="font-bold">ID</TableCell>

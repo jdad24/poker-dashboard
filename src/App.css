@@ -4,4 +4,8 @@
     padding-bottom: 2rem;
     /* background-color: var(--color-blue-300); */
     background-color: white;
+
+    th {
+        background-color: var(--color-gray-200);
+    }
 }

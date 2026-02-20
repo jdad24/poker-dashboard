@@ -15,7 +15,7 @@ interface Transactions {
 export default function PlayerTransactionsTable({transactions, className = ""} : {transactions: Transactions[], className?: string}) {
   return (
     <TableContainer component={Paper} className={className}>
-      <Table>
+      <Table stickyHeader>
         <TableHead>
           <TableRow>
             <TableCell className="font-bold">ID</TableCell>

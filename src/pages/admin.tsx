@@ -105,8 +105,8 @@ export default function AdminPage() {
                 <DataCard className="m-4 shadow-md shadow-black" title="Total Player Transactions" value={String(playerTransactions.length)} />
                 <DataCard className="m-4 shadow-md shadow-black" title="Total Dealer Sessions" value={String(dealerSessions.length)} />
             </div>
-            <div className="flex flex-col space-y-10">
-                <div className={`bg-blue-400/20 p-4 rounded-lg shadow-md shadow-black ${playerTabExpanded ? 'h-auto' : 'h-20'} overflow-hidden`}>
+            <div className="flex flex-col space-y-15">
+                <div className={`bg-blue-400/20 pt-4 pb-8 px-8 rounded-lg shadow-md shadow-black ${playerTabExpanded ? 'h-auto' : 'h-20'} overflow-hidden`}>
                     <div className="flex flex-row justify-between">
                         <Tabs onChange={handlePlayerTabChange} className="mb-4" value={playerTab}>
                             <Tab className="font-bold" label="Players" value={0} />
@@ -116,7 +116,7 @@ export default function AdminPage() {
                     </div>
                     {renderPlayerTabContent()}
                 </div>
-              <div className={`bg-blue-400/20 p-4 rounded-lg shadow-md shadow-black ${dealerTabExpanded ? 'h-auto' : 'h-20'} overflow-hidden`}>
+              <div className={`bg-blue-400/20 pt-4 pb-8 px-8 rounded-lg shadow-md shadow-black ${dealerTabExpanded ? 'h-auto' : 'h-20'} overflow-hidden`}>
                     <div className="flex flex-row justify-between">
                         <Tabs onChange={handleDealerTabChange} className="mb-4" value={dealerTab}>
                             <Tab className="font-bold" label="Dealers" value={0} />
