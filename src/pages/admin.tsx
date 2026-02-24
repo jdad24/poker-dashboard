@@ -51,11 +51,11 @@ export default function AdminPage() {
         setPlayerTab(newValue);
     }
 
-     const handleDealerTabChange = (_event: React.SyntheticEvent, newValue: number) => {
+    const handleDealerTabChange = (_event: React.SyntheticEvent, newValue: number) => {
         // Handle tab change logic here
         setDealerTab(newValue);
     }
-        
+
     const renderPlayerTabContent = () => {
         switch (playerTab) {
             case 0:
@@ -100,10 +100,10 @@ export default function AdminPage() {
     return (
         <div className="flex flex-col w-[95%] h-auto min-h-screen mx-auto">
             <div className="flex flex-row justify-between mt-4 mb-12 ">
-                <DataCard className="m-4 shadow-md shadow-black" title="Total Players" value={String(players.length)} />
-                <DataCard className="m-4 shadow-md shadow-black" title="Total Dealers" value={String(dealers.length)} />
-                <DataCard className="m-4 shadow-md shadow-black" title="Total Player Transactions" value={String(playerTransactions.length)} />
-                <DataCard className="m-4 shadow-md shadow-black" title="Total Dealer Sessions" value={String(dealerSessions.length)} />
+                <DataCard className="m-4 shadow-md shadow-black" title="Players" value={String(players.length)} />
+                <DataCard className="m-4 shadow-md shadow-black" title="Dealers" value={String(dealers.length)} />
+                <DataCard className="m-4 shadow-md shadow-black" title="Player Transactions" value={String(playerTransactions.length)} />
+                <DataCard className="m-4 shadow-md shadow-black" title="Dealer Sessions" value={String(dealerSessions.length)} />
             </div>
             <div className="flex flex-col space-y-15">
                 <div className={`bg-blue-400/20 pt-4 pb-8 px-8 rounded-lg shadow-sm shadow-black ${playerTabExpanded ? 'h-auto' : 'h-20'} overflow-hidden`}>
@@ -116,7 +116,7 @@ export default function AdminPage() {
                     </div>
                     {renderPlayerTabContent()}
                 </div>
-              <div className={`bg-blue-400/20 pt-4 pb-8 px-8 rounded-lg shadow-sm shadow-black ${dealerTabExpanded ? 'h-auto' : 'h-20'} overflow-hidden`}>
+                <div className={`bg-blue-400/20 pt-4 pb-8 px-8 rounded-lg shadow-sm shadow-black ${dealerTabExpanded ? 'h-auto' : 'h-20'} overflow-hidden`}>
                     <div className="flex flex-row justify-between">
                         <Tabs onChange={handleDealerTabChange} className="mb-4" value={dealerTab}>
                             <Tab className="font-bold" label="Dealers" value={0} />
@@ -125,7 +125,7 @@ export default function AdminPage() {
                         <OpenInFull className="ml-auto hover:scale-125 cursor-pointer" onClick={() => setDealerTabExpanded(!dealerTabExpanded)} />
                     </div>
                     {renderDealerTabContent()}
-                    </div>
+                </div>
             </div>
             <NewPlayerModal open={newPlayerModalOpen} handleClose={() => setNewPlayerModalOpen(false)} />
             <NewDealerModal open={newDealerModalOpen} handleClose={() => setNewDealerModalOpen(false)} />
