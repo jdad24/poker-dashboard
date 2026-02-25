@@ -2,13 +2,93 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import { createServer } from 'http';
+import session from 'express-session';
+import bcrypt from 'bcrypt';
 
 const app = express();
 app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const server = createServer(app);
+// Session configuration. Will implement Redis or another store later for production.
+app.use(
+  session({
+    name: "sid",
+    secret: "super-secret-key", // use env var in prod
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false, // true in HTTPS
+      maxAge: 1000 * 60 * 60, // 1 hour
+    },
+  })
+);
+
+const users = []; // In-memory user store. Will implement database connection later.
+
+const requireAuth = (req, res, next) => {
+  if(req.path === '/login' || req.path === '/create-account') {
+    return next(); // Allow login and registration routes without authentication
+  }
+  if(!req.session.userId) {
+    console.log('Unauthorized access attempt to:', req.path);
+    return res.redirect('/login'); // Redirect to login page if not authenticated
+    // return res.status(401).json({ message: 'Unauthorized' });
+  }
+  next();
+}
+
+app.get('/', (req, res) => {
+  if (!req.session.userId) {
+    return res.redirect('/login');
+  }
+  res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
+});
+
+app.get('/login', (req, res) => {
+  if(req.session.userId) {
+    return res.redirect('/'); // Redirect to home if already logged in
+  }
+  res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
+});
+app.get('/create-account', (req, res) => {
+  res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
+});
 
 app.use(express.static(path.join(process.cwd(), 'dist')));
+app.use(requireAuth); // Apply authentication middleware to all routes except login and registration
+
+app.post('/auth/create-account', async (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required' });
+  }
+  const existingUser = users.find(user => user.username === username); //Do not use in production, will implement database connection later.
+  if (existingUser) {
+    return res.status(400).json({ message: 'Username already exists' });
+  }
+  const hashedPassword = await bcrypt.hash(password, 10);
+  users.push({ username, password: hashedPassword });
+  res.status(201).json({ message: 'User registered successfully' });
+});
+
+app.post('/auth/login', async (req, res) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    return res.status(400).json({ message: 'Username and password are required' });
+  }
+  const user = users.find(user => user.username === username);
+  if (!user) {
+    return res.status(400).json({ message: 'Invalid username or password' });
+  }
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+  if (!isPasswordValid) {
+    return res.status(400).json({ message: 'Invalid username or password' });
+  }
+  req.session.userId = user.username; // Store username in session for simplicity
+  res.json({ message: 'Login successful' });
+});
 
 app.get('/api/players', (req, res) => {
   // Mock player data. Will implement database connection later.
@@ -70,9 +150,11 @@ app.get('/api/dealers/sessions', (req, res) => {
   res.json(sessions);
 });
 
-app.get('/{*all}', (req, res) => {
+app.get('/{*all}', (req, res) => {  
   res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
 });
+
+const server = createServer(app);
 
 server.listen(5000, () => {
   console.log('Server is running on port 5000');
