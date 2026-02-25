@@ -1,15 +1,36 @@
 import { AppBar, Menu, MenuItem } from "@mui/material"
 import { Menu as MenuIcon } from "@mui/icons-material"
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Header() {
     const [menuAnchorEl, setMenuAnchorEl] = useState<null | SVGElement>(null);
+    const navigate = useNavigate()
 
     const renderMenu = (e: React.MouseEvent<SVGElement>) => {
         // Logic to render the menu goes here
         // This could involve setting state to open a dropdown or modal
         setMenuAnchorEl(e.currentTarget);
+    }
+
+    const handleLogout = async () => {
+        try {
+            const response = await fetch('/auth/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+            const result = await response.json()
+
+            if (result.success) {
+                navigate('/login')
+            } else {
+                console.error("Error logging out")
+            }
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     return (
@@ -24,6 +45,7 @@ export default function Header() {
             >
                 <MenuItem className="font-bold"><Link to="/create-account">Create Account</Link></MenuItem>
                 <MenuItem className="font-bold"><Link to="/login">Login</Link></MenuItem>
+                <MenuItem className="font-bold" onClick={handleLogout}>Logout</MenuItem>
             </Menu>
         </AppBar>
     )

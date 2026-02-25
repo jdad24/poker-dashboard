@@ -28,10 +28,10 @@ app.use(
 const users = []; // In-memory user store. Will implement database connection later.
 
 const requireAuth = (req, res, next) => {
-  if(req.path === '/login' || req.path === '/create-account') {
+  if (req.path === '/login' || req.path === '/create-account') {
     return next(); // Allow login and registration routes without authentication
   }
-  if(!req.session.userId) {
+  if (!req.session.userId) {
     console.log('Unauthorized access attempt to:', req.path);
     return res.redirect('/login'); // Redirect to login page if not authenticated
     // return res.status(401).json({ message: 'Unauthorized' });
@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-  if(req.session.userId) {
+  if (req.session.userId) {
     return res.redirect('/'); // Redirect to home if already logged in
   }
   res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
@@ -56,39 +56,56 @@ app.get('/create-account', (req, res) => {
   res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
 });
 
-app.use(express.static(path.join(process.cwd(), 'dist')));
-app.use(requireAuth); // Apply authentication middleware to all routes except login and registration
-
 app.post('/auth/create-account', async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    return res.status(400).json({ message: 'Username and password are required' });
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ message: 'email and password are required' });
   }
-  const existingUser = users.find(user => user.username === username); //Do not use in production, will implement database connection later.
+  const existingUser = users.find(user => user.email === email); //Do not use in production, will implement database connection later.
   if (existingUser) {
-    return res.status(400).json({ message: 'Username already exists' });
+    return res.status(400).json({ message: 'email already exists' });
   }
   const hashedPassword = await bcrypt.hash(password, 10);
-  users.push({ username, password: hashedPassword });
-  res.status(201).json({ message: 'User registered successfully' });
+  users.push({ email, password: hashedPassword });
+  res.status(201).json({ success: true, message: 'User registered successfully' });
 });
 
 app.post('/auth/login', async (req, res) => {
-  const { username, password } = req.body;
-  if (!username || !password) {
-    return res.status(400).json({ message: 'Username and password are required' });
+  const { email, password } = req.body;
+  if (!email || !password) {
+    return res.status(400).json({ message: 'email and password are required' });
   }
-  const user = users.find(user => user.username === username);
+  const user = users.find(user => user.email === email);
   if (!user) {
-    return res.status(400).json({ message: 'Invalid username or password' });
+    return res.status(400).json({ message: 'Invalid email or password' });
   }
   const isPasswordValid = await bcrypt.compare(password, user.password);
   if (!isPasswordValid) {
-    return res.status(400).json({ message: 'Invalid username or password' });
+    return res.status(400).json({ message: 'Invalid email or password' });
   }
-  req.session.userId = user.username; // Store username in session for simplicity
-  res.json({ message: 'Login successful' });
+  req.session.userId = user.email; // Store email in session for simplicity
+  res.json({ success: true, message: 'Login successful' });
 });
+
+app.post('/auth/logout', async (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Logout error: ", err)
+      return res.status(500).json({ success: false })
+    }
+    // Optional but recommended: clear cookie explicitly
+    res.clearCookie("connect.sid", {
+      httpOnly: true,
+      secure: false, // true in HTTPS
+      maxAge: 1000 * 60 * 60, // 1 hour
+    }); 
+
+    res.json({ success: true });
+  })
+})
+
+app.use(express.static(path.join(process.cwd(), 'dist')));
+app.use(requireAuth); // Apply authentication middleware to all routes except login and registration
 
 app.get('/api/players', (req, res) => {
   // Mock player data. Will implement database connection later.
@@ -142,15 +159,15 @@ app.get('/api/dealers/sessions', (req, res) => {
   const sessions = [
     { id: 1, dealer: 'Dealer 1', downNumber: 1, tableNumber: 1, handsDealt: 10, totalTips: 150, gameCost: 100, startTime: '2023-01-01T18:00:00Z', endTime: '2023-01-01T22:00:00Z', notes: 'Great session!' },
     { id: 2, dealer: 'Dealer 2', downNumber: 2, tableNumber: 2, handsDealt: 15, totalTips: 250, gameCost: 150, startTime: '2023-01-02T18:00:00Z', endTime: '2023-01-02T22:00:00Z' },
-    { id: 3, dealer: 'Dealer 3', downNumber: 3, tableNumber: 3, handsDealt: 8, totalTips: 185, gameCost :75 , startTime:'2023-01-03T18:00:00Z', endTime:'2023-01-03T22:00:00Z', notes: 'Rough session, lots of bad beats.' },
+    { id: 3, dealer: 'Dealer 3', downNumber: 3, tableNumber: 3, handsDealt: 8, totalTips: 185, gameCost: 75, startTime: '2023-01-03T18:00:00Z', endTime: '2023-01-03T22:00:00Z', notes: 'Rough session, lots of bad beats.' },
     { id: 4, dealer: 'Dealer 4', downNumber: 4, tableNumber: 4, handsDealt: 7, totalTips: 75, gameCost: 55, startTime: '2023-01-04T18:00:00Z', endTime: '2023-01-04T22:00:00Z' },
-    { id: 5, dealer:'Dealer 5', downNumber :5 , tableNumber :5 , handsDealt :6 , totalTips :65 , gameCost :45 , startTime:'2023-01-05T18:00:00Z', endTime:'2023-01-05T22:00:00Z' },
-    { id: 6, dealer:'Dealer 6', downNumber :6 , tableNumber :6 , handsDealt :5 , totalTips :45 , gameCost :35 , startTime:'2023-01-06T18:00:00Z', endTime:'2023-01-06T22:00:00Z' }
+    { id: 5, dealer: 'Dealer 5', downNumber: 5, tableNumber: 5, handsDealt: 6, totalTips: 65, gameCost: 45, startTime: '2023-01-05T18:00:00Z', endTime: '2023-01-05T22:00:00Z' },
+    { id: 6, dealer: 'Dealer 6', downNumber: 6, tableNumber: 6, handsDealt: 5, totalTips: 45, gameCost: 35, startTime: '2023-01-06T18:00:00Z', endTime: '2023-01-06T22:00:00Z' }
   ];
   res.json(sessions);
 });
 
-app.get('/{*all}', (req, res) => {  
+app.get('/{*all}', (req, res) => {
   res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
 });
 
