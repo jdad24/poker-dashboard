@@ -24,7 +24,11 @@ export default function CreateAccountPage() {
             const result = await response.json();
             if(result.success) {
                 navigate('/login')
-            }            
+            }    
+            
+            if(result.exists) {
+                alert('User account already exists')
+            }
         } catch (error) {
             console.error('Error:', error);
             alert("Error creating account")

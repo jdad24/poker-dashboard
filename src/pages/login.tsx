@@ -5,15 +5,12 @@ export default function LoginPage() {
 
     const handleLogin = async (e: React.SubmitEvent) => {
         e.preventDefault();
-        // Handle account creation logic here
-        // Process form data
 
         const formData = new FormData(e.target);
         const formObject = Object.fromEntries(formData.entries());
-        console.log('Form Data:', formObject);
 
         // Send data to an internal API URL
-        try {
+        try {            
             const response = await fetch('/auth/login', {
                 method: 'POST',
                 headers: {
@@ -21,8 +18,9 @@ export default function LoginPage() {
                 },
                 body: JSON.stringify(formObject),
             });
-            const result = await response.json();
-            if(result.success) {
+            const data = await response.json();
+            
+            if(data.success) {
                 navigate('/')
             } else {
                 alert("Invalid username or password")
