@@ -1,6 +1,6 @@
 import express, { type Request, type Response } from "express";
-import { addUser, checkPassword, checkIfUserExists } from '../services/user.ts';
-import jwt from 'jsonwebtoken';
+import { registerUserService, checkPasswordService, findUserByEmailService } from '../services/user.ts';
+// import jwt from 'jsonwebtoken';
 
 const router = express.Router()
 
@@ -10,14 +10,11 @@ router.post('/create-account', async (req: Request, res: Response) => {
     if (!email || !password) {
         return res.status(400).json({ message: 'email and password are required' });
     }
-    const existingUser = await checkIfUserExists(email)
-    if (existingUser) {
-        return res.status(409).json({ exists: true, message: 'email already exists' });
-    }
 
     try {
-        const success = await addUser(email, password)
-        res.status(201).json({ success, message: 'User registered successfully' });
+        const response = await registerUserService(email, password)
+        if(response.success) return res.status(201).json({ success: response.success, message: 'User registered successfully' });
+        return res.status(400).json({ success: response.success, message: 'User registered successfully' });
     } catch (e) {
         console.error(e)
         res.status(500).json({ success: false, error: e })
@@ -31,7 +28,7 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 
     try {
-        const isValid = await checkPassword(email, password)
+        const isValid = await checkPasswordService(email, password)
 
         if (!isValid) {
             return res.status(400).json({ message: 'Invalid email or password' });

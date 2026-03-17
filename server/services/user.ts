@@ -1,76 +1,47 @@
-import pool from "../db/index.ts";
-import bcrypt from 'bcrypt'
+import { User } from "../models/index.ts";
+import type { User as UserType } from "../../types/index.ts";
 
-export const addUser = async (email: string, password: string): Promise<any> => {
-    const hashedPassword = await bcrypt.hash(password, 10)
-
-    const query = `
-    INSERT INTO users (email, password_hash) 
-    VALUES ($1, $2)
-    RETURNING *
-    `
+export const registerUserService = async (email: string, password: string): Promise<any> => {
     try {
-        await pool.query(query, [email, hashedPassword])
-        return { success: true, message: 'user added successfully' }
+        const existingUser = await User.findUserByEmail(email)
+        if(existingUser) return {success: false, message: 'user account already exists'}
+
+        const response = await User.createUser(email, password)
+        if (response.success) return { success: true, message: 'user added successfully' }
+        return { success: false, message: 'error adding user' }
     } catch (e) {
         console.error(e)
-        return { success: false, message: 'error adding user' }
+        return { success: false, message: e }
     }
 }
 
-export const deleteUser = async (email: string, password: string): Promise<any> => {
-    const query = `
-    DELETE FROM users
-    WHERE email = $1
-    RETURNING *
-    `
+export const deleteUserService = async (email: string, password: string): Promise<any> => {
     try {
-        await pool.query(query, [email])
-        return { success: true, message: 'user deleted successfully' }
+        const response = await User.deleteUser(email, password)
+        if (response.sucess) return { success: true, message: 'user account deleted successfully' }
+        return { success: false, message: 'error deleting user account' }
     } catch (e) {
         console.error(e)
         return { success: false, message: 'error deleting user' }
     }
 }
 
-export const checkIfUserExists = async (email: string): Promise<boolean> => {
-    const query = `
-    SELECT *
-    FROM users
-    WHERE email = $1
-    RETURNING *
-    `
+export const findUserByEmailService = async (email: string): Promise<UserType | null> => {
     try {
-        const result = await pool.query(query, [email])
-        return result.rows.length == 0 ? false : true
+        const user = await User.findUserByEmail(email) as UserType
+        if (user) return user
+        return null
     } catch (e) {
         console.error(e)
-        return false
+        return null
     }
 }
 
-export const checkPassword = async (email: string, password: string): Promise<any> => {
-    const query = `
-    SELECT password_hash
-    FROM users
-    WHERE email = $1
-    LIMIT 1
-    `
-
+export const checkPasswordService = async (email: string, password: string): Promise<any> => {
     try {
-        const result = await pool.query(query, [email])
-        const dbPasswordHash = result.rows[0].password_hash
-
-        const isMatch = await bcrypt.compare(password, dbPasswordHash)
-
-        if (isMatch) {
-            return true
-        }
-
-        return false
+        const isValid = await User.checkPassword(email, password)
+        if (isValid) return true
     } catch (e) {
         console.error(e)
     }
-
-    return false
 }

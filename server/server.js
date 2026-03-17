@@ -64,7 +64,7 @@ app.get('/create-account', (req, res) => {
 });
 
 app.use(express.static(path.join(process.cwd(), 'dist')));
-app.use(requireAuth); // Apply authentication middleware to all routes except login and registration
+// app.use(requireAuth); // Apply authentication middleware to all routes except login and registration
 
 app.get('/profile', requireAuth, (req, res) => {
     if (req.session.email) {
@@ -76,7 +76,7 @@ app.get('/profile', requireAuth, (req, res) => {
 
 app.use('/api', requireAuth, APIRouter)
 
-app.get('/{*all}', (req, res) => {
+app.get('/{*all}', requireAuth, (req, res) => {
   res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
 });
 
