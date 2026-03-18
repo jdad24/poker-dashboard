@@ -15,9 +15,9 @@ export const registerUserService = async (email: string, password: string): Prom
     }
 }
 
-export const deleteUserService = async (email: string, password: string): Promise<any> => {
+export const deleteUserService = async (email: string): Promise<any> => {
     try {
-        const response = await User.deleteUser(email, password)
+        const response = await User.deleteUser(email)
         if (response.sucess) return { success: true, message: 'user account deleted successfully' }
         return { success: false, message: 'error deleting user account' }
     } catch (e) {

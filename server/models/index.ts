@@ -32,7 +32,7 @@ export class User {
         }
     }
 
-    static async deleteUser(email: string, password: string): Promise<any> {
+    static async deleteUser(email: string): Promise<any> {
         const query = `
         DELETE FROM users
         WHERE email = $1

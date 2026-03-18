@@ -2,7 +2,7 @@ import express, { type Request, type Response } from 'express';
 
 const router = express.Router()
 
-router.get('/players', (req: Request, res: Response) => {
+router.get('/players', (_req: Request, res: Response) => {
     // Mock player data. Will implement database connection later.
     const players = [
         { id: 1, name: 'Alice', email: 'alice@example.com', phone: '123-456-7890', notes: 'Loves poker' },
@@ -17,7 +17,7 @@ router.get('/players', (req: Request, res: Response) => {
     res.json(players);
 });
 
-router.get('/players/transactions', (req: Request, res: Response) => {
+router.get('/players/transactions', (_req: Request, res: Response) => {
     // Mock transaction data. Will implement database connection later.
     const transactions = [
         { id: 1, player: 'Alice', buyInAmount: 100, buyInMethod: 'Cash', rebuyAmount: 50, rebuyMethod: 'Cash', cashoutAmount: 150, cashoutMethod: 'Cash', time: '2023-01-01' },
@@ -36,7 +36,7 @@ router.get('/players/transactions', (req: Request, res: Response) => {
     res.json(transactions);
 });
 
-router.get('/dealers', (req: Request, res: Response) => {
+router.get('/dealers', (_req: Request, res: Response) => {
     // Mock dealer data. Will implement database connection later.
     const dealers = [
         { id: 1, name: 'Dealer 1', email: 'dealer1@example.com', phone: '223-456-7890', status: 'Active', notes: 'Loves poker' },
@@ -49,7 +49,7 @@ router.get('/dealers', (req: Request, res: Response) => {
     res.json(dealers);
 });
 
-router.get('/dealers/sessions', (req: Request, res: Response) => {
+router.get('/dealers/sessions', (_req: Request, res: Response) => {
     // Mock dealer session data. Will implement database connection later.
     const sessions = [
         { id: 1, dealer: 'Dealer 1', downNumber: 1, tableNumber: 1, handsDealt: 10, totalTips: 150, gameCost: 100, startTime: '2023-01-01T18:00:00Z', endTime: '2023-01-01T22:00:00Z', notes: 'Great session!' },
