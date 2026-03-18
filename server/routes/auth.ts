@@ -34,7 +34,7 @@ router.post('/login', async (req: Request, res: Response) => {
             return res.status(400).json({ message: 'Invalid email or password' });
         }
 
-        req.session.email = email; // Store email in session for simplicity
+        (req.session as any).email = email; // Store email in session for simplicity
         // const token = jwt.sign({
         //     email: email,
         //     loginTime: Date()
