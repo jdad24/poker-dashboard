@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "start": "node dist/server.js",
     "lint": "eslint .",
     "preview": "vite preview",
     "watch": "nodemon --watch server --exec \"node server/server.js\""
