@@ -5,3 +5,5 @@ declare module 'express-session' {
     email?: string; // add any custom session properties here
   }
 }
+
+type THIS_SHOULD_ERROR = number extends string ? true : false;
