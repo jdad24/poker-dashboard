@@ -5,8 +5,8 @@ import dotenv from 'dotenv';
 // import { createServer } from 'http';
 import session from 'express-session';
 import helmet from 'helmet';
-import AuthRouter from './routes/auth'
-import APIRouter from './routes/api'
+import AuthRouter from './routes/auth.js'
+import APIRouter from './routes/api.js'
 
 dotenv.config()
 
