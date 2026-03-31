@@ -1,5 +1,5 @@
-import { User } from "../models/index";
-import type { User as UserType } from "../../types/index";
+import { User } from "../models/index.js";
+import type { User as UserType } from "../../types/index.js";
 
 export const registerUserService = async (email: string, password: string): Promise<any> => {
     try {
