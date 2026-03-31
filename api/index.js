@@ -2,11 +2,11 @@ import express from 'express';
 import cors from 'cors';
 import path from 'path';
 import dotenv from 'dotenv';
-import { createServer } from 'http';
+// import { createServer } from 'http';
 import session from 'express-session';
 import helmet from 'helmet';
-import AuthRouter from './routes/auth.ts'
-import APIRouter from './routes/api.ts'
+import AuthRouter from './routes/auth'
+import APIRouter from './routes/api'
 
 dotenv.config()
 
