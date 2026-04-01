@@ -1,5 +1,5 @@
 import express, { type Request, type Response } from "express";
-import { registerUserService, checkPasswordService } from '../services/user.js';
+import { registerUserService, checkPasswordService } from '../services/user.ts';
 // import jwt from 'jsonwebtoken';
 
 const router = express.Router()

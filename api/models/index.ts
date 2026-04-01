@@ -1,6 +1,6 @@
-import pool from "../db/index.js";
+import pool from "../db/index.ts";
 import bcrypt from 'bcrypt';
-import type { User as UserType } from "../../types/index.js";
+import type { User as UserType } from "../../types/index.ts";
 
 export class User {
     id: number;
