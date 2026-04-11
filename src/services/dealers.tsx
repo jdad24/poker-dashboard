@@ -1,6 +1,6 @@
 export async function getDealers() {
     try {
-        const response = await fetch(`/api/dealers`);
+        const response = await fetch(`/api/data/dealers`);
         if (!response.ok) {
             throw new Error('Failed to fetch dealers');
         }
@@ -13,7 +13,7 @@ export async function getDealers() {
 
 export async function getDealerSessions() {
     try {
-        const response = await fetch(`/api/dealers/sessions`);
+        const response = await fetch(`/api/data/dealers/sessions`);
         if (!response.ok) {
             throw new Error('Failed to fetch dealer sessions');
         }

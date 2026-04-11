@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import session from 'express-session';
 import helmet from 'helmet';
 import AuthRouter from './routes/auth.js'
-import APIRouter from './routes/api.js'
+import DataRouter from './routes/api.js'
 
 dotenv.config()
 
@@ -31,10 +31,10 @@ app.use(
   })
 );
 
-app.use('/auth', AuthRouter)
+app.use('/api/auth', AuthRouter)
 
 const requireAuth = (req, res, next) => {
-  if (req.path === '/login' || req.path === '/create-account' || req.path.startsWith('/auth')) {
+  if (req.path === '/login' || req.path === '/create-account' || req.path.startsWith('/api/auth')) {
     return next(); // Allow login and registration routes without authentication
   }
   if (!req.session.email) {
@@ -66,7 +66,7 @@ app.get('/create-account', (req, res) => {
 app.use(express.static(path.join(process.cwd(), 'dist')));
 // app.use(requireAuth); // Apply authentication middleware to all routes except login and registration
 
-app.get('/profile', requireAuth, (req, res) => {
+app.get('/api/profile', requireAuth, (req, res) => {
     if (req.session.email) {
         return { loggedIn: true, email: req.session.email }
     } else {
@@ -74,7 +74,7 @@ app.get('/profile', requireAuth, (req, res) => {
     }
 })
 
-app.use('/api', requireAuth, APIRouter)
+app.use('/api/data', requireAuth, DataRouter)
 
 app.get('/{*all}', requireAuth, (req, res) => {
   res.sendFile(path.join(process.cwd(), 'dist', 'index.html'));
