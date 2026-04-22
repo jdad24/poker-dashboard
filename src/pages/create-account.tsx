@@ -14,7 +14,7 @@ export default function CreateAccountPage() {
 
         // Send data to an internal API URL
         try {
-            const response = await fetch('/auth/create-account', {
+            const response = await fetch('/api/auth/create-account', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
