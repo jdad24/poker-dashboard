@@ -16,7 +16,7 @@ export default function NewDealerModal({ open, handleClose }: { open: boolean, h
     }
 
     return (
-        <Modal className="flex flex-row justify-center items-center" open={open}>
+        <Modal className="flex flex-row justify-center items-center" open={open} onClose={handleClose}>
             <div className="bg-white w-200 h-150 rounded-2xl">
                 <h1 className="text-2xl font-bold m-4">New Dealer <Person /></h1>
                 <form className="flex flex-col" onSubmit={handleSubmit}>

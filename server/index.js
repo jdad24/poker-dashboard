@@ -5,8 +5,8 @@ import dotenv from 'dotenv';
 // import { createServer } from 'http';
 import session from 'express-session';
 import helmet from 'helmet';
-import AuthRouter from './routes/auth.js'
-import DataRouter from './routes/api.js'
+import AuthRouter from './routes/auth.ts'
+import DataRouter from './routes/api.ts'
 
 dotenv.config()
 
@@ -86,8 +86,14 @@ app.get('/{*all}', requireAuth, (req, res) => {
 
 // const server = createServer(app);
 
-// server.listen(5000, () => {
-//   console.log('Server is running on port 5000');
-// });
+process.on('uncaughtException', (err) => {
+  console.error('UNCAUGHT EXCEPTION:', err);
+});
 
-export default app;
+process.on('unhandledRejection', (err) => {
+  console.error('UNHANDLED REJECTION:', err);
+});
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+});

@@ -1,5 +1,6 @@
 import express, { type Request, type Response } from 'express';
-import { getPlayers, getPlayerTransactions } from '../services/players';
+import { getPlayers, getPlayerTransactions } from '../services/players.ts';
+import { getDealers, getDealerSessions } from '../services/dealers.ts';
 
 const router = express.Router()
 
@@ -17,7 +18,7 @@ router.get('/players', async (_req: Request, res: Response) => {
     // ];
 
     try {
-        const players = await getPlayers();
+        const players = await getPlayers();        
         res.json(players)
 
     } catch (e) {
@@ -68,7 +69,7 @@ router.get('/dealers', async (_req: Request, res: Response) => {
     // ];
 
     try {
-        const dealers = await getPlayers();
+        const dealers = await getDealers();
         res.json(dealers)
     } catch (e) {
         console.error(e)
@@ -90,7 +91,7 @@ router.get('/dealers/sessions', async (_req: Request, res: Response) => {
     // res.json(sessions);
 
     try {
-        const sessions = await getPlayers();
+        const sessions = await getDealerSessions();
         res.json(sessions)
     } catch (e) {
         console.error(e)

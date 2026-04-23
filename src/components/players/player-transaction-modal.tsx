@@ -19,7 +19,7 @@ export default function PlayerTransactionModal({ open, handleClose }: { open: bo
     }
 
     return (
-        <Modal className="flex flex-row justify-center items-center" open={open}>
+        <Modal className="flex flex-row justify-center items-center" open={open} onClose={handleClose}>
             <div className="bg-white w-200 h-150 rounded-2xl overflow-scroll">
                 <h1 className="text-2xl font-bold m-4">New Transaction <ReceiptIcon /></h1>
                 <form className="flex flex-col" onSubmit={handleSubmit}>
